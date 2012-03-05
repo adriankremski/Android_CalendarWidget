@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/calendar"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center" >
+
+    <TextView
+       android:id="@+id/calendar_month"
+       android:gravity="center"
+       android:layout_width="fill_parent"
+   	   android:layout_height="wrap_content"
+       android:textStyle="bold"
+       android:textSize="9pt"
+	/>
+    
+    <LinearLayout 
+        android:id="@+id/calendar_months_row"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+    >  
+       	<TextView
+            android:id="@+id/calendar_monday_label"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold" 
+        />
+
+        <TextView
+            android:id="@+id/calendar_tuesday_label"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold" 
+        />
+
+        <TextView
+            android:id="@+id/calendar_wednesday_label"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold" 
+        />
+
+        <TextView
+            android:id="@+id/calendar_thursday_label"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+        />
+
+        <TextView
+            android:id="@+id/calendar_friday_label"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+        />
+
+        <TextView
+            android:id="@+id/calendar_saturday_label"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+        />
+
+        <TextView
+            android:id="@+id/calendar_sunday_label"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold" 
+        />
+    </LinearLayout>
+    
+    <ViewSwitcher
+        android:id="@+id/calendar_grid_switcher"
+        android:layout_width="fill_parent"
+    	android:layout_height="fill_parent">
+	    <com.kremski.android.calendar.CalendarGridView 
+	        android:id="@+id/calendar_grid_view"
+	        android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:numColumns="7"
+	    >
+	        
+	    </com.kremski.android.calendar.CalendarGridView>
+    </ViewSwitcher>
+</LinearLayout>

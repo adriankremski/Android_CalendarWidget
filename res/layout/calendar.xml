@@ -94,6 +94,7 @@
 	        android:layout_width="fill_parent"
 	    	android:layout_height="fill_parent"
 	    	android:numColumns="7"
+	    	android:columnWidth="1000dp"
 	    >
 	        
 	    </com.kremski.android.calendar.CalendarGridView>

@@ -17,8 +17,8 @@ import com.kremski.android.calendar.CellOnClickListener;
 import com.kremski.android.calendar.Day;
 import com.kremski.android.calendar.R;
 
-public class CalendarWidgetExampleProjectActivity extends Activity {
-    /** Called when the activity is first created. */
+public class CalendarWidgetExampleActivity extends Activity {
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -13,11 +13,10 @@ class CalendarDaysManager {
 	
 	private Calendar currentCalendar = GregorianCalendar.getInstance();
 	
-	List<Day> getDaysToShow() {
-		List<Day> partOfDays = generatePartOfDays(currentCalendar);
-		List<Day> remainingDays = generateRemainingDays(currentCalendar, partOfDays);
-		partOfDays.addAll(remainingDays);
-		return partOfDays;
+	private int maxAmountOfRowsWithWeeks = 0;
+	
+	CalendarDaysManager(int maxAmountOfRowsWithWeeks) {
+		this.maxAmountOfRowsWithWeeks = maxAmountOfRowsWithWeeks;
 	}
 	
 	Calendar getCopyOfCurrentCalendar() { 
@@ -32,23 +31,34 @@ class CalendarDaysManager {
 		return currentCalendar.get(field);
 	}
 	
-	private List<Day> generatePartOfDays(Calendar currentCalendar) {
+	List<Day> getDaysToShowInCalendar() {
+		List<Day> partOfDays = generatePartOfDays();
+		List<Day> remainingDays = generateRemainingDaysIfNeccessary(partOfDays);
+		partOfDays.addAll(remainingDays);
+		return partOfDays;
+	}
+	
+	private List<Day> generatePartOfDays() {
 		List<Day> days = new LinkedList<Day>();
-		days.addAll(CalendarUtilities.getLastWeekBeforeSpecifiedMonth(CalendarUtilities.copyCalendar(currentCalendar)));
-		days.addAll(CalendarUtilities.getAllDaysFromSpecifiedMonth(CalendarUtilities.copyCalendar(currentCalendar)));
-		days.addAll(CalendarUtilities.getFirstWeekAfterSpecifiedMonth(CalendarUtilities.copyCalendar(currentCalendar)));
+		days.addAll(CalendarUtilities.getLastWeekBeforeSpecifiedMonth(currentCalendar));
+		days.addAll(CalendarUtilities.getAllDaysFromSpecifiedMonth(currentCalendar));
 		return days;
 	}
 	
-	private List<Day> generateRemainingDays(Calendar currentCalendar, List<Day> partOfDays) {
+	private List<Day> generateRemainingDaysIfNeccessary(List<Day> partOfDays) {
 		List<Day> remainingDays = new LinkedList<Day>();
-		if (partOfDays.size() == 35) {
-			Calendar copiedCalendar = CalendarUtilities.copyCalendar(currentCalendar);
-			copiedCalendar = CalendarUtilities.getCalendarSetToFirstDayOfNextMonth(copiedCalendar);
-			int lastDay = partOfDays.get(partOfDays.size()-1).getDayOfMonth();
-			remainingDays.addAll(CalendarUtilities.getDaysWithinRangeFromSpecifiedMonth(lastDay, lastDay+7, copiedCalendar));
+		
+		int maxAmountOfDays = maxAmountOfRowsWithWeeks * 7;
+		if (partOfDays.size() < maxAmountOfDays) {
+			remainingDays.addAll(CalendarUtilities.getDaysRangeFromSpecifiedMonth(1, 
+					maxAmountOfDays - partOfDays.size(), getPreparedCalendar(currentCalendar)));
 		}
 		return remainingDays;
+	}
+	
+	private Calendar getPreparedCalendar(Calendar currentCalendar) {
+		Calendar preparedCalendar = CalendarUtilities.getCalendarSetToFirstDayOfNextMonth(currentCalendar);
+		return preparedCalendar;
 	}
 	
 }

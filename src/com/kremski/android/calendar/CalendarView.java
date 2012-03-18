@@ -31,7 +31,7 @@ public class CalendarView extends LinearLayout {
 	private boolean animatedSwitching = true;
 	
 	private CalendarSwipeAnimations calendarAnimations = null;
-	private CalendarDaysManager calendarDaysManager = new CalendarDaysManager();
+	private CalendarDaysManager calendarDaysManager = new CalendarDaysManager(7);
 	private CalendarAttributes calendarAttrs = new CalendarAttributes();
 	private CellOnClickListener cellOnClickListener = new CellOnClickListener() {
 		
@@ -59,6 +59,14 @@ public class CalendarView extends LinearLayout {
 		initializeCalendarView();
 	}
 
+	public void turnOnAnimation() {
+		animatedSwitching = true;
+	}
+	
+	public void turnOffAnimation() {
+		animatedSwitching = false;
+	}
+	
 	public void setCalendarSwipeAnimations(CalendarSwipeAnimations calendarAnimations) {
 		ExceptionUtilities.throwRuntimeExceptionIfObjectIsNull(
 				new IllegalArgumentException("calendarAnimations can't be null"), calendarAnimations);
@@ -86,18 +94,6 @@ public class CalendarView extends LinearLayout {
 		calendarAdapter.setCellOnClickListener(cellOnClickListener);
 	}
 	
-	public void turnOnAnimation() {
-		animatedSwitching = true;
-	}
-	
-	public void turnOffAnimation() {
-		animatedSwitching = false;
-	}
-
-	public Calendar getCopyOfCurrentCalendar() {
-		return calendarDaysManager.getCopyOfCurrentCalendar();
-	}
-	
 	public void showNextDate(MovementType type) {
 		ExceptionUtilities.throwRuntimeExceptionIfObjectIsNull(
 				new IllegalArgumentException("type can't be null"), type);
@@ -114,11 +110,15 @@ public class CalendarView extends LinearLayout {
 		showPreviousDateProperly(type);
 	}
 	
+	public Calendar getCurrentCalendar() {
+		return calendarDaysManager.getCopyOfCurrentCalendar();
+	}
+	
 	private void initializeCalendarView() {
 		calendarAnimations = new CalendarSwipeAnimations(getContext());
 		ViewGroup linearLayout = (ViewGroup)getCalendarLayout().findViewById(R.id.calendar);
 		initializeCalendarGridViewSwitcher(linearLayout);
-		initializeCalendarDaysGrid(linearLayout, calendarDaysManager.getDaysToShow());
+		initializeCalendarDaysGrid(linearLayout, calendarDaysManager.getDaysToShowInCalendar());
 		initializeMonthLabel((TextView)linearLayout.findViewById(R.id.calendar_month));
 		initializeDayOfWeekLabels(linearLayout);
 	}
@@ -235,7 +235,7 @@ public class CalendarView extends LinearLayout {
 	private void generateAndShowNextMonth() {
 		GridView nextDaysGrid = getDaysGrid(
 				(ViewFlipper.LayoutParams)calendarSwitcher.getCurrentView().getLayoutParams(),
-				calendarDaysManager.getDaysToShow());
+				calendarDaysManager.getDaysToShowInCalendar());
 		nextDaysGrid.setNumColumns(7);
 		calendarSwitcher.addView(nextDaysGrid, 1);
 		calendarSwitcher.showNext();
@@ -251,7 +251,7 @@ public class CalendarView extends LinearLayout {
 	}
 	
 	private void showNextDateWithoutAnimation() {
-		calendarAdapter.setDays(calendarDaysManager.getDaysToShow());
+		calendarAdapter.setDays(calendarDaysManager.getDaysToShowInCalendar());
 		calendarAdapter.setCurrentMonth(calendarDaysManager.getCopyOfCurrentCalendar());
 		calendarAdapter.notifyDataSetChanged();
 	}
@@ -285,14 +285,14 @@ public class CalendarView extends LinearLayout {
 	private void generateAndShowPreviousMonth() {
 		GridView prevDaysGrid = getDaysGrid(
 				(ViewSwitcher.LayoutParams)calendarSwitcher.getCurrentView().getLayoutParams(), 
-				calendarDaysManager.getDaysToShow());
+				calendarDaysManager.getDaysToShowInCalendar());
 		prevDaysGrid.setNumColumns(7);
 		calendarSwitcher.addView(prevDaysGrid, 1);
 		calendarSwitcher.showNext();
 	}
 	
 	private void showPreviousDateWithoutAnimation() {
-		calendarAdapter.setDays(calendarDaysManager.getDaysToShow());
+		calendarAdapter.setDays(calendarDaysManager.getDaysToShowInCalendar());
 		calendarAdapter.setCurrentMonth(calendarDaysManager.getCopyOfCurrentCalendar());
 		calendarAdapter.notifyDataSetChanged();
 	}

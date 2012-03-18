@@ -79,9 +79,9 @@ class CalendarAdapter extends BaseAdapter{
 
 	private void initializeVariables(CalendarView calendarView, List<Day> calendarDays, CellOnClickListener cellOnClickListener) {
 		this.calendarDays = calendarDays;
-		this.month = calendarView.getCopyOfCurrentCalendar();
 		calendarAttrs = calendarView.getCalendarAttributes();
 		this.cellOnClickListener = cellOnClickListener;
+		setCurrentMonth(calendarView.getCurrentCalendar());
 	}
 	
 	private void setAppropriateCellBackground(CalendarCell calendarCell, Day day) {
